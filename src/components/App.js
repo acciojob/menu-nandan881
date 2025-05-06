@@ -1,139 +1,49 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from 'react';
+import './styles.css';
 
-const MENU_DATA = [
-  {
-    id: 1,
-    title: "buttermilk pancakes",
-    category: "breakfast",
-    price: 15.99,
-    img: "./images/item-1.jpeg",
-    desc: `I'm baby woke mlkshk wolf bitters live-edge blue bottle, hammock freegan copper mug whatever cold-pressed `,
-  },
-  {
-    id: 2,
-    title: "diner double",
-    category: "lunch",
-    price: 13.99,
-    img: "./images/item-2.jpeg",
-    desc: `vaporware iPhone mumblecore selvage raw denim slow-carb leggings gochujang helvetica man braid jianbing. Marfa thundercats `,
-  },
-  {
-    id: 3,
-    title: "godzilla milkshake",
-    category: "shakes",
-    price: 6.99,
-    img: "./images/item-3.jpeg",
-    desc: `ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
-  },
-  {
-    id: 4,
-    title: "country delight",
-    category: "breakfast",
-    price: 20.99,
-    img: "./images/item-4.jpeg",
-    desc: `Shabby chic keffiyeh neutra snackwave pork belly shoreditch. Prism austin mlkshk truffaut, `,
-  },
-  {
-    id: 5,
-    title: "egg attack",
-    category: "lunch",
-    price: 22.99,
-    img: "./images/item-5.jpeg",
-    desc: `franzen vegan pabst bicycle rights kickstarter pinterest meditation farm-to-table 90's pop-up `,
-  },
-  {
-    id: 6,
-    title: "oreo dream",
-    category: "shakes",
-    price: 18.99,
-    img: "./images/item-6.jpeg",
-    desc: `Portland chicharrones ethical edison bulb, palo santo craft beer chia heirloom iPhone everyday`,
-  },
-  {
-    id: 7,
-    title: "bacon overflow",
-    category: "breakfast",
-    price: 8.99,
-    img: "./images/item-7.jpeg",
-    desc: `carry jianbing normcore freegan. Viral single-origin coffee live-edge, pork belly cloud bread iceland put a bird `,
-  },
-  {
-    id: 8,
-    title: "american classic",
-    category: "lunch",
-    price: 12.99,
-    img: "./images/item-8.jpeg",
-    desc: `on it tumblr kickstarter thundercats migas everyday carry squid palo santo leggings. Food truck truffaut  `,
-  },
-  {
-    id: 9,
-    title: "quarantine buddy",
-    category: "shakes",
-    price: 16.99,
-    img: "./images/item-9.jpeg",
-    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
-  },
+const menuData = [
+  { id: 1, name: 'Pancakes', category: 'Breakfast', price: '$5', image: 'https://via.placeholder.com/150' },
+  { id: 2, name: 'Burger', category: 'Lunch', price: '$8', image: 'https://via.placeholder.com/150' },
+  { id: 3, name: 'Omelette', category: 'Breakfast', price: '$4', image: 'https://via.placeholder.com/150' },
+  { id: 4, name: 'Steak', category: 'Lunch', price: '$12', image: 'https://via.placeholder.com/150' },
+  { id: 5, name: 'Vanilla Shake', category: 'Shakes', price: '$3', image: 'https://via.placeholder.com/150' },
+  { id: 6, name: 'Chocolate Shake', category: 'Shakes', price: '$4', image: 'https://via.placeholder.com/150' },
 ];
 
-const Menu = () => {
-  const [list, setlist] = useState(MENU_DATA);
+function App() {
+  const [menuItems, setMenuItems] = useState(menuData);
 
-  const onFilter = (category) => {
-    if (category === "all") {
-      setlist(MENU_DATA);
+  const filterItems = (category) => {
+    if (category === 'All') {
+      setMenuItems(menuData);
     } else {
-      const matches = MENU_DATA.filter((i) => i.category === category);
-
-      setlist(matches);
+      setMenuItems(menuData.filter(item => item.category === category));
     }
   };
+
   return (
     <div id="main">
       <h1>Our Menu</h1>
-
-      <div>
-        <button id="filter-btn-0" onClick={() => onFilter("all")}>
-          All
-        </button>
-        <button id="filter-btn-1" onClick={() => onFilter("breakfast")}>
-          Breakfast
-        </button>
-        <button id="filter-btn-2" onClick={() => onFilter("lunch")}>
-          Lunch
-        </button>
-        <button id="filter-btn-3" onClick={() => onFilter("shakes")}>
-          Shakes
-        </button>
+      <div className="btn-container">
+        <button id="filter-btn-1" onClick={() => filterItems('Breakfast')}>Breakfast</button>
+        <button id="filter-btn-2" onClick={() => filterItems('Lunch')}>Lunch</button>
+        <button id="filter-btn-3" onClick={() => filterItems('Shakes')}>Shakes</button>
       </div>
-
-      <div>
-        {list.map((i) => (
+      <div className="menu">
+        {menuItems.map(item => (
           <div
-            data-test-id={
-              i.category === "breakfast"
-                ? "menu-item-breakfast"
-                : i.category === "lunch"
-                ? "menu-item-lunch"
-                : "menu-item-shakes"
-            }
-            key={i.id}
+            key={item.id}
+            className="menu-item"
+            data-test-id={`menu-item-${item.category.toLowerCase()}`}
           >
-            <div>
-              <img src={i.img} alt={i.title} />
-            </div>
-            <div>
-              <div>
-                <span>{i.title}</span>
-                <span>{i.price}</span>
-              </div>
-              <div>{i.desc}</div>
-            </div>
+            <img src={item.image} alt={item.name} />
+            <h4>{item.name}</h4>
+            <p>{item.price}</p>
           </div>
         ))}
       </div>
     </div>
   );
-};
+}
 
-export default Menu;
+export default App;
